@@ -12,6 +12,7 @@ import {
   WebpubManifest,
   WebpubPdfConformsTo,
 } from './types';
+import PDFNavigator from './PdfNavigator';
 
 type LoadedWebReader = {
   isLoading: false;
@@ -42,7 +43,7 @@ export default function useWebReader(
   webpubManifestUrl: string,
   options: UseWebReaderOptions = {}
 ): UseWebReaderReturn {
-  const [navigator, setNavigator] = React.useState<null | HtmlNavigator>(null);
+  const [navigator, setNavigator] = React.useState<null | Navigator>(null);
   const [manifest, setManifest] = React.useState<WebpubManifest | null>(null);
   const [_state, setState] = React.useState<number>(0);
 
@@ -57,26 +58,31 @@ export default function useWebReader(
       setManifest(manifest);
 
       const conformsTo = manifest.metadata?.conformsTo;
+      console.log('conformsTo', conformsTo);
 
       switch (conformsTo) {
         case WebpubPdfConformsTo:
           // initialize a PDF Navigator
-          throw new Error('Unimplemented PDF Manifest');
+          PDFNavigator.init({ webpubManifestUrl, didMutate }).then(
+            setNavigator
+          );
+          break;
         /**
          * The default navigator is HTML, like we use for ePubs and
          * AxisNow encrypted ePubs
          */
         case undefined:
-        case AxisNowEpubConformsTo:
+        case AxisNowEpubConformsTo: {
           HtmlNavigator.init({ webpubManifestUrl, didMutate }).then(
             setNavigator
           );
+        }
       }
     });
   }, [webpubManifestUrl, setState, setNavigator, setManifest]);
 
   // here we will need to switch based on what the manifest conforms to
-  const content = <HtmlNavigator.Content />;
+  const content = <PDFNavigator.Content />;
 
   if (!navigator || !manifest) {
     return {

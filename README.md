@@ -175,7 +175,7 @@ To run the example app:
 ```bash
 cd example
 npm i 
-npm run start
+npm run example
 ```
 
 The example imports and live reloads.

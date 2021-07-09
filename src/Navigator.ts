@@ -26,24 +26,24 @@ export default abstract class Navigator {
 
   // static init(options: NavigatorArguments): Promise<Navigator>;
 
-  abstract get currentLocation(): Locator;
+  // abstract get currentLocation(): Locator;
 
-  // change location
-  abstract goTo(link: Link): Promise<boolean>;
-  // abstract goTo(locator: Locator): Promise<boolean>;
-  // for navigating one unit, unit depends on the format
-  abstract goForward(): Promise<boolean>;
-  abstract goBackward(): Promise<boolean>;
-  // these do the same thing as forward and back, but depend
-  // on reading direction
-  abstract goLeft(): Promise<boolean>;
-  abstract goRight(): Promise<boolean>;
+  // // change location
+  // abstract goTo(link: Link): Promise<boolean>;
+  // // abstract goTo(locator: Locator): Promise<boolean>;
+  // // for navigating one unit, unit depends on the format
+  // abstract goForward(): Promise<boolean>;
+  // abstract goBackward(): Promise<boolean>;
+  // // these do the same thing as forward and back, but depend
+  // // on reading direction
+  // abstract goLeft(): Promise<boolean>;
+  // abstract goRight(): Promise<boolean>;
 
-  // settings
-  abstract scroll(): void;
-  abstract paginate(): void;
-  abstract toggleScroll(): void;
-  abstract get isScrolling(): boolean;
+  // // settings
+  // abstract scroll(): void;
+  // abstract paginate(): void;
+  // abstract toggleScroll(): void;
+  // abstract get isScrolling(): boolean;
 }
 
 // used for initializer, but unfortunately can't be typed on the

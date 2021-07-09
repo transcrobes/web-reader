@@ -41,7 +41,7 @@ const App = () => {
     <BrowserRouter>
       <Switch>
         <Route path="/pdf">
-          <WebReader webpubManifestUrl="samples/muse13454.json" />
+          <WebReader webpubManifestUrl="http://localhost:1234/samples/muse13454.json" />
         </Route>
         <Route path="/swtest">
           <SWTest />

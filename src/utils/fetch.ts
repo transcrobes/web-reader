@@ -11,3 +11,14 @@ export async function fetchJson<ExpectedResponse extends any = any>(
   }
   return (await response.json()) as ExpectedResponse;
 }
+
+export async function fetchPdf<ExpectedResponse extends any = any>(
+  url: string
+) {
+  const response = await fetch(url, { mode: 'cors' });
+  if (!response.ok) {
+    console.log('response', response);
+    throw new Error('Response not Ok for URL: ' + url);
+  }
+  return (await response.json()) as ExpectedResponse;
+}
