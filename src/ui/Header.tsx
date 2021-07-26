@@ -19,6 +19,8 @@ export type HeaderProps = {
 export default function Header(props: HeaderProps) {
   const { headerLeft, readerState, navigator } = props;
 
+  const borderColor = useColorModeValue('gray.100', 'gray.600', 'yellow.500');
+
   return (
     <Flex
       alignContent="space-between"
@@ -26,7 +28,7 @@ export default function Header(props: HeaderProps) {
       py={2}
       px={8}
       borderBottom="1px solid"
-      borderColor="gray.100"
+      borderColor={borderColor}
     >
       {headerLeft ? (
         headerLeft

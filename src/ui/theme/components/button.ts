@@ -1,4 +1,4 @@
-const ButtonStyle = {
+const getButtonStyle = (getColor: GetColor) => ({
   // style object for base or default style
   baseStyle: {
     borderRadius: 'none',
@@ -7,7 +7,7 @@ const ButtonStyle = {
   sizes: {},
   // styles for different visual variants ("outline", "solid")
   variants: {
-    solid: variantSolid,
+    solid: variantSolid(getColor),
     toggle: variantToggle,
     headerNav: variantHeaderNav,
   },
@@ -15,9 +15,8 @@ const ButtonStyle = {
   defaultProps: {
     size: 'sm',
     variant: 'solid',
-    colorScheme: 'light',
   },
-};
+});
 
 const commonToggleButtonStyle = {
   color: 'ui.black',
@@ -45,6 +44,7 @@ const commonToggleButtonStyle = {
   },
 };
 
+type GetColor = (light: string, dark: string, sepia: string) => string;
 /* Color Schemes:
  ** Light, Sepia, Dark
  * States:
@@ -53,88 +53,15 @@ const commonToggleButtonStyle = {
  ** Disabled
  ** Hovered
  */
-function variantSolid(props: any) {
+const variantSolid = (getColor: GetColor) => (props: any) => {
   const { colorScheme } = props;
 
-  switch (colorScheme) {
-    case 'sepia':
-      return {
-        ...commonToggleButtonStyle,
-        bg: 'ui.sepia',
-        color: 'gray.800',
-        _focus: {
-          bg: 'ui.sepia',
-          color: 'ui.black',
-        },
-        _active: {
-          bg: 'ui.sepia',
-          color: 'ui.black',
-        },
-        _hover: {
-          bg: 'ui.sepia',
-          _disabled: {
-            bg: 'ui.sepia',
-          },
-        },
-        _checked: {
-          bg: 'ui.sepia',
-          color: 'ui.black',
-        },
-        _disabled: {
-          bg: 'ui.sepia',
-        },
-      };
-    case 'dark':
-      return {
-        ...commonToggleButtonStyle,
-        bg: 'ui.black',
-        color: 'ui.white',
-        _focus: {
-          bg: 'ui.black',
-          color: 'white',
-        },
-        _active: {
-          bg: 'ui.black',
-          color: 'ui.white',
-        },
-        _hover: {
-          bg: 'ui.black',
-          _disabled: {
-            bg: 'ui.black',
-            color: 'ui.white',
-          },
-        },
-        _checked: {
-          bg: 'ui.black',
-          color: 'ui.white',
-        },
-        _disabled: {
-          bg: 'ui.black',
-          color: 'ui.white',
-        },
-      };
-    default:
-      // default is 'light'
-      return {
-        ...commonToggleButtonStyle,
-        bg: 'ui.white',
-        color: 'gray.800',
-        _hover: {
-          bg: 'ui.white',
-          _disabled: {
-            bg: 'ui.white',
-          },
-        },
-        _checked: {
-          bg: `ui.white`,
-          color: 'ui.black',
-        },
-        _disabled: {
-          bg: 'ui.white',
-        },
-      };
-  }
-}
+  return {
+    ...commonToggleButtonStyle,
+    bg: getColor('white', 'gray.500', 'sepia'),
+    color: getColor('black', 'white', 'gray.500'),
+  };
+};
 
 function variantToggle(props: any) {
   return {
@@ -157,4 +84,4 @@ function variantHeaderNav() {
   };
 }
 
-export default ButtonStyle;
+export default getButtonStyle;
