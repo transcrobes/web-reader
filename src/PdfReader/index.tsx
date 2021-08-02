@@ -1,5 +1,5 @@
 import { Document, Page } from 'react-pdf/dist/esm/entry.parcel';
-
+import { SizeMe } from 'react-sizeme';
 import React from 'react';
 import {
   ColorMode,
@@ -204,7 +204,7 @@ export default function usePdfReader(args: ReaderArguments): ReaderReturn {
       isLoading: false,
       content: (
         <main
-          style={{ height: 'calc(100vh - 100px)' }}
+          style={{ height: 'calc(100vh - 100px)', width: '100%' }}
           tabIndex={-1}
           id="iframe-wrapper"
         >
@@ -234,19 +234,38 @@ export default function usePdfReader(args: ReaderArguments): ReaderReturn {
     isLoading: false,
     content: (
       <main
-        style={{ height: 'calc(100vh - 100px)' }}
+        style={{
+          height: 'calc(100vh - 100px)',
+          width: '100%',
+          overflowY: state.isScrolling ? 'scroll' : 'hidden',
+          overflowX: 'hidden',
+        }}
         tabIndex={-1}
         id="iframe-wrapper"
       >
-        <Document file={state.data} onLoadSuccess={onDocumentLoadSuccess}>
-          {state.isScrolling &&
-            Array.from(new Array(state.numPages), (index) => (
-              <Page key={`page_${index + 1}`} pageNumber={index + 1} />
-            ))}
-          {!state.isScrolling && (
-            <Page pageNumber={state.pageNumber} loading={<></>} />
+        <SizeMe>
+          {({ size }) => (
+            <Document file={state.data} onLoadSuccess={onDocumentLoadSuccess}>
+              {state.isScrolling &&
+                Array.from(new Array(state.numPages), (_, index) => (
+                  <Page
+                    key={`page_${index + 1}`}
+                    pageNumber={index + 1}
+                    width={size.width ? size.width : 1}
+                    height={size.height ? size.height : 1}
+                  />
+                ))}
+              {!state.isScrolling && (
+                <Page
+                  pageNumber={state.pageNumber}
+                  loading={<></>}
+                  width={size.width ? size.width : 1}
+                  height={size.height ? size.height : 1}
+                />
+              )}
+            </Document>
           )}
-        </Document>
+        </SizeMe>
       </main>
     ),
     state,
