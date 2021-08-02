@@ -52,11 +52,16 @@ export type GetContent = (readingOrderHref: string) => Promise<string>;
 
 export type ColorMode = 'night' | 'sepia' | 'day';
 
+export type FontFamily = 'publisher' | 'serif' | 'sans-serif' | 'open-dyslexic';
+
 export type Navigator = {
   goForward: () => void;
   goBackward: () => void;
   setColorMode: (mode: ColorMode) => Promise<void>;
   setScroll: (val: 'scrolling' | 'paginated') => Promise<void>;
+  increaseFontSize: () => Promise<void>;
+  decreaseFontSize: () => Promise<void>;
+  setFontFamily: (family: FontFamily) => Promise<void>;
 };
 
 export type ReaderType = 'HTML' | 'PDF';
@@ -66,7 +71,7 @@ export type ReaderState = {
   colorMode: ColorMode;
   isScrolling: boolean;
   fontSize: number;
-  fontFamily: string; //'serif' | 'sans-serif';
+  fontFamily: FontFamily;
 };
 
 export type InactiveReader = null;
