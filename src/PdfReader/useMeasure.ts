@@ -5,9 +5,14 @@ export type Dimensions = Pick<
   'x' | 'y' | 'top' | 'left' | 'right' | 'bottom' | 'height' | 'width'
 >;
 export type UseMeasureRef<E extends Element = Element> = (element: E) => void;
-export type UseMeasureResult<E extends Element = Element> = [UseMeasureRef<E>, Dimensions];
+export type UseMeasureResult<E extends Element = Element> = [
+  UseMeasureRef<E>,
+  Dimensions
+];
 
-export default function useMeasure<E extends Element = Element>(): UseMeasureResult<E> {
+export default function useMeasure<
+  E extends Element = Element
+>(): UseMeasureResult<E> {
   // this is a little trick to get a reference to an HTML element. Using useRef wouldn't
   // work because we actually need rerenders when it changes, to update the useLayoutEffect
   const [element, ref] = React.useState<E | null>(null);
@@ -17,7 +22,16 @@ export default function useMeasure<E extends Element = Element>(): UseMeasureRes
     () =>
       new window.ResizeObserver((entries) => {
         if (entries[0]) {
-          const { x, y, width, height, top, left, bottom, right } = entries[0].contentRect;
+          const {
+            x,
+            y,
+            width,
+            height,
+            top,
+            left,
+            bottom,
+            right,
+          } = entries[0].contentRect;
           setRect({ x, y, width, height, top, left, bottom, right });
         }
       }),
