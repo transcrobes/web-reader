@@ -7,7 +7,7 @@ export type Dimensions = Pick<
 export type UseMeasureRef<E extends Element = Element> = (element: E) => void;
 export type UseMeasureResult<E extends Element = Element> = [
   UseMeasureRef<E>,
-  Dimensions
+  Dimensions | null
 ];
 
 export default function useMeasure<
@@ -44,7 +44,7 @@ export default function useMeasure<
     return () => {
       observer.disconnect();
     };
-  }, [element]);
+  }, [element, observer]);
 
   return [ref, rect];
 }
