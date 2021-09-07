@@ -15,14 +15,15 @@ describe('navigating an EPUB page', () => {
   });
 
   it('should update page content after clicking on TOC link', () => {
-    cy.get('#reader-loading').should('not.be.visible');
-    cy.iframe(IFRAME_SELECTOR)
+    cy.iframe(IFRAME_SELECTOR, { getDocument: true })
       .findByRole('img', {
         name: "Alice's Adventures in Wonderland, by Lewis Carroll",
       })
       .should('exist');
 
-    cy.iframe(IFRAME_SELECTOR).find('.subtitle').should('not.exist');
+    cy.iframe(IFRAME_SELECTOR, { getDocument: true }).within(() => {
+      cy.get('.subtitle').should('not.exist');
+    });
 
     // Open TOC menu
     cy.findByRole('button', { name: 'Table of Contents' }).click();
@@ -30,38 +31,39 @@ describe('navigating an EPUB page', () => {
     // Open chapter 1
     cy.findByRole('menuitem', { name: 'I: Down the Rab­bit-Hole' }).click();
 
-    cy.get('#reader-loading').should('not.be.visible');
-
-    cy.iframe(IFRAME_SELECTOR)
-      .find('.subtitle')
-      .contains('Down the Rab­bit-Hole');
+    cy.iframe(IFRAME_SELECTOR, { getDocument: true }).within(() => {
+      cy.get('.subtitle').contains('Down the Rab­bit-Hole');
+    });
   });
 
   it('should navigate forward and backwards with page buttons', () => {
     cy.findByRole('button', { name: 'Next Page' }).click();
-    cy.get('#reader-loading').should('be.visible');
 
-    cy.iframe(IFRAME_SELECTOR)
-      .findByRole('img', {
+    cy.iframe(IFRAME_SELECTOR, { getDocument: true }).within(() => {
+      cy.findByRole('img', {
         name: 'The Standard Ebooks logo',
-      })
-      .should('exist');
+      }).should('exist');
+    });
 
-    cy.iframe(IFRAME_SELECTOR)
-      .findByRole('img', {
+    cy.iframe(IFRAME_SELECTOR, { getDocument: true }).within(() => {
+      cy.findByRole('img', {
         name: "Alice's Adventures in Wonderland, by Lewis Carroll",
-      })
-      .should('not.exist');
+      }).should('not.exist');
+    });
 
     cy.findByRole('button', { name: 'Previous Page' }).click();
-    cy.get('#reader-loading').should('be.visible');
 
-    cy.get('#reader-loading').should('not.be.visible');
-    cy.iframe(IFRAME_SELECTOR)
-      .findByRole('img', {
+    cy.iframe(IFRAME_SELECTOR, { getDocument: true }).within(() => {
+      cy.findByRole('img', {
+        name: 'The Standard Ebooks logo',
+      }).should('not.exist');
+    });
+
+    cy.iframe(IFRAME_SELECTOR, { getDocument: true }).within(() => {
+      cy.findByRole('img', {
         name: "Alice's Adventures in Wonderland, by Lewis Carroll",
-      })
-      .should('exist');
+      }).should('exist');
+    });
 
     // TODO: Test whether the next or the previous button is visible when
     // we are on the first page or last page, respectively.
