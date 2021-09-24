@@ -10,8 +10,11 @@ import Button from './Button';
 import TableOfContent from './TableOfContent';
 import { HEADER_HEIGHT } from './constants';
 
+export const largeOnlyDisplay = { sm: 'none', md: 'none', lg: 'inline-block' };
+
 const DefaultHeaderLeft = (): React.ReactElement => {
   const linkColor = useColorModeValue('gray.700', 'gray.100', 'gray.700');
+  console.log('rendering');
   return (
     <Link
       href="/"
@@ -65,7 +68,9 @@ export default function Header(
         <SettingsCard {...props} />
         <Button border="none" onClick={toggleFullScreen}>
           <Icon decorative name={IconNames.search} modifiers={['small']} />
-          <Text variant="headerNav">Toggle Fullscreen</Text>
+          <Text variant="headerNav" d={largeOnlyDisplay}>
+            Toggle Fullscreen
+          </Text>
         </Button>
       </HStack>
     </Flex>

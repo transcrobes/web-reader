@@ -14,6 +14,7 @@ import Button from './Button';
 import useColorModeValue from './hooks/useColorModeValue';
 import { ReadiumLink } from '../WebpubManifestTypes/ReadiumLink';
 import { HEADER_HEIGHT } from './constants';
+import { largeOnlyDisplay } from './Header';
 
 type TocItemProps = React.ComponentPropsWithoutRef<typeof MenuItem> & {
   href: string;
@@ -100,7 +101,9 @@ export default function TableOfContent({
     >
       <MenuButton as={Button} border="none">
         <Icon decorative name={IconNames.download} modifiers={['small']} />
-        <Text variant="headerNav">Table of Contents</Text>
+        <Text d={largeOnlyDisplay} variant="headerNav">
+          Table of Contents
+        </Text>
       </MenuButton>
       {isOpen && manifest?.toc && (
         <Portal>

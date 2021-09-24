@@ -17,7 +17,6 @@ function variantHeaderNav() {
     my: 0,
     letterSpacing: 1,
     fontSize: 0,
-    display: { sm: 'none', md: 'none', lg: 'inline-block' },
   };
 }
 

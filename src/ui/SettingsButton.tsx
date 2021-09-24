@@ -13,6 +13,7 @@ import Button from './Button';
 import useColorModeValue from './hooks/useColorModeValue';
 import PdfSettings from './PdfSettings';
 import HtmlSettings from './HtmlSettings';
+import { largeOnlyDisplay } from './Header';
 
 type SettingsCardProps =
   | Pick<PDFActiveReader, 'navigator' | 'state' | 'type'>
@@ -39,7 +40,9 @@ export default function SettingsCard(
         <PopoverTrigger>
           <Button onClick={open} border="none">
             <Icon decorative name={IconNames.plus} modifiers={['small']} />{' '}
-            <Text variant="headerNav">Settings</Text>
+            <Text d={largeOnlyDisplay} variant="headerNav">
+              Settings
+            </Text>
           </Button>
         </PopoverTrigger>
         <PopoverContent
