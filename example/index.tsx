@@ -36,23 +36,23 @@ const App = () => {
    * requests we make in dev. To enable the service worker in development,
    * run `npm run example:sw`.
    */
-  usePublicationSW([
-    {
-      manifestUrl: `${origin}/samples/moby-epub2-exploded/manifest.json`,
-    },
-    // {
-    //   manifestUrl: `${origin}/samples/pdf/degruyter.json`,
-    //   proxyUrl: pdfProxyUrl,
-    // },
-    // {
-    //   manifestUrl: `${origin}/samples/pdf/muse1007.json`,
-    //   proxyUrl: pdfProxyUrl,
-    // },
-    // { manifestUrl: 'https://alice.dita.digital/manifest.json' },
-    // {
-    //   manifestUrl: `${origin}/samples/axisnow/decrypted/manifest.json`,
-    // },
-  ]);
+  // usePublicationSW([
+  // {
+  //   manifestUrl: `${origin}/samples/moby-epub2-exploded/manifest.json`,
+  // },
+  // {
+  //   manifestUrl: `${origin}/samples/pdf/degruyter.json`,
+  //   proxyUrl: pdfProxyUrl,
+  // },
+  // {
+  //   manifestUrl: `${origin}/samples/pdf/muse1007.json`,
+  //   proxyUrl: pdfProxyUrl,
+  // },
+  // { manifestUrl: 'https://alice.dita.digital/manifest.json' },
+  // {
+  //   manifestUrl: `${origin}/samples/axisnow/decrypted/manifest.json`,
+  // },
+  // ]);
 
   return (
     <ChakraProvider theme={getTheme('day')}>

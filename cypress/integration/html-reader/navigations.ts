@@ -1,8 +1,17 @@
-import { IFRAME_SELECTOR } from '../../support/constants';
+import {
+  IFRAME_SELECTOR,
+  MOBY_EPUB2_MANIFEST_REQUEST,
+  MOBY_EPUB2_PATH,
+} from '../../support/constants';
 
 describe('navigating an EPUB page', () => {
   beforeEach(() => {
-    cy.loadPage('/streamed-alice-epub');
+    cy.intercept('GET', MOBY_EPUB2_MANIFEST_REQUEST).as('manifest');
+    cy.loadPage(MOBY_EPUB2_PATH);
+    cy.wait('@manifest');
+
+    // wait for requests to resolve
+    // wait for it to show
   });
 
   it('should contain a link to return to the homepage', () => {
@@ -13,22 +22,22 @@ describe('navigating an EPUB page', () => {
     );
   });
 
-  it('should update page content after clicking on TOC link', () => {
+  it.only('should update page content after clicking on TOC link', () => {
     cy.iframe(IFRAME_SELECTOR)
       .findByRole('img', {
-        name: "Alice's Adventures in Wonderland, by Lewis Carroll",
+        name: 'Cover',
       })
       .should('exist');
 
-    cy.iframe(IFRAME_SELECTOR)
-      .findByText('Down the Rab­bit-Hole')
-      .should('not.exist');
+    const chapter2Name = 'CHAPTER 2. The Carpet-Bag.';
+
+    cy.iframe(IFRAME_SELECTOR).findByText(chapter2Name).should('not.exist');
 
     // Open TOC menu
     cy.findByRole('button', { name: 'Table of Contents' }).click();
 
     // Open chapter 1
-    cy.findByRole('menuitem', { name: 'I: Down the Rab­bit-Hole' }).click();
+    cy.findByRole('menuitem', { name: chapter2Name }).click();
 
     cy.log('briefly see the loading indicator');
     cy.get('#reader-loading').should('be.visible');
