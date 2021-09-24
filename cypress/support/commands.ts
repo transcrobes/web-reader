@@ -23,13 +23,14 @@ Cypress.Commands.add('loadPage', (pageName) => {
       win.sessionStorage.clear(); // clear storage so that we are always on page one
     },
   });
-  cy.findByRole('img', { name: 'Loading', timeout: 20000 }).should(
-    'be.visible'
-  );
-  cy.findByRole('link', {
-    name: 'Return to Homepage',
-    timeout: 20000,
-  }).should('be.visible');
+  // running these before the "wait" on the manifest was causing issues
+  // cy.findByRole('img', { name: 'Loading', timeout: 20000 }).should(
+  //   'be.visible'
+  // );
+  // cy.findByRole('link', {
+  //   name: 'Return to Homepage',
+  //   timeout: 20000,
+  // }).should('be.visible');
 });
 
 Cypress.Commands.add(

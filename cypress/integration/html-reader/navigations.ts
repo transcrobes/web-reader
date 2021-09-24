@@ -5,11 +5,26 @@ import {
 } from '../../support/constants';
 
 describe('navigating an EPUB page', () => {
+  const COVER_SRC =
+    'http://localhost:1234/samples/moby-epub2-exploded/OEBPS/wrap0000.html';
+  const CHAPTER_2_SRC =
+    'http://localhost:1234/samples/moby-epub2-exploded/OEBPS/@public@vhost@g@gutenberg@html@files@2701@2701-h@2701-h-1.htm.html';
+
   beforeEach(() => {
+    // this disables browser cache so we can intercept requests.
+    cy.on('window:before:load', (win) => {
+      const original = win.fetch;
+      win.fetch = (input, init) =>
+        original(input, { ...init, cache: 'no-store' });
+    });
+
     cy.intercept('GET', MOBY_EPUB2_MANIFEST_REQUEST).as('manifest');
+    cy.intercept('GET', COVER_SRC).as('cover');
+    cy.intercept('GET', CHAPTER_2_SRC).as('chapter2');
+
     cy.loadPage(MOBY_EPUB2_PATH);
     cy.wait('@manifest');
-
+    cy.wait('@cover');
     // wait for requests to resolve
     // wait for it to show
   });
@@ -36,15 +51,21 @@ describe('navigating an EPUB page', () => {
     // Open TOC menu
     cy.findByRole('button', { name: 'Table of Contents' }).click();
 
-    // Open chapter 1
+    // Open chapter 2
     cy.findByRole('menuitem', { name: chapter2Name }).click();
 
     cy.log('briefly see the loading indicator');
     cy.get('#reader-loading').should('be.visible');
+
+    // it starts to fail intermittently when I wait on chapter to,
+    // saying "Uncaught required element html not found in iframe".
+    // appears to be an r2d2bc error
+    cy.wait('@chapter2');
+
     cy.get('#reader-loading').should('not.be.visible');
 
     cy.iframe(IFRAME_SELECTOR)
-      .findByText('Down the Rab­bit-Hole')
+      .findByRole('heading', { name: 'CHAPTER 2. The Carpet-Bag.' })
       .should('exist');
   });
 
