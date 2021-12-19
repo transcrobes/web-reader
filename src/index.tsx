@@ -42,7 +42,7 @@ const WebReader: FC<WebReaderProps> = (props) => {
 
 export default WebReader;
 
-export { usePublicationSW } from './ServiceWorker/index';
+export { usePublicationSW, initWebReaderSW } from './ServiceWorker/index';
 export { default as useWebReader } from './useWebReader';
 export { default as useHtmlReader } from './HtmlReader';
 export { default as usePdfReader } from './PdfReader';
