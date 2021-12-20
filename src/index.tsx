@@ -48,3 +48,12 @@ export { default as useHtmlReader } from './HtmlReader';
 export { default as usePdfReader } from './PdfReader';
 export { getTheme } from './ui/theme';
 export * from './constants';
+
+export { WebpubManifest } from './types';
+export { ReadiumLink } from './WebpubManifestTypes/ReadiumLink';
+export {
+  CACHE_EXPIRATION_SECONDS,
+  PRECACHE_PUBLICATIONS,
+  WEBPUB_CACHE_NAME,
+} from './ServiceWorker/constants';
+export { PublicationConfig, WebReaderSWConfig } from './ServiceWorker/types';

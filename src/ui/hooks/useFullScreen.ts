@@ -34,15 +34,17 @@ interface FullSpecElement extends HTMLElement {
   webkitRequestFullscreen: (options?: FullscreenOptions) => Promise<void>;
   msRequestFullscreen: (options?: FullscreenOptions) => Promise<void>;
 }
+let doc: FullSpecDocument = {} as FullSpecDocument;
+let docElm: FullSpecElement = {} as FullSpecElement;
 
-const doc =
-  typeof document !== 'undefined'
-    ? (document as FullSpecDocument)
-    : ({} as any);
-const docElm =
-  typeof document !== 'undefined'
-    ? (document.documentElement as FullSpecElement)
-    : ({} as any);
+try {
+  if (typeof document !== 'undefined') {
+    doc = document as FullSpecDocument;
+    docElm = document.documentElement as FullSpecElement;
+  }
+} catch (e) {
+  console.log('Probably in a service worker');
+}
 
 // For Safari IOS: Only available on iPad, not on iPhone.
 // https://developer.mozilla.org/en-US/docs/Web/API/Document/fullscreenEnabled#browser_compatibility
@@ -76,7 +78,6 @@ const exitFullScreen = () => {
 };
 
 export const isOnFullscreen = (() => {
-  const doc = document as FullSpecDocument;
   return () =>
     doc.fullscreenElement ||
     doc.mozFullScreenElement ||
