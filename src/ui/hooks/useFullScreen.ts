@@ -35,8 +35,14 @@ interface FullSpecElement extends HTMLElement {
   msRequestFullscreen: (options?: FullscreenOptions) => Promise<void>;
 }
 
-const doc = document as FullSpecDocument;
-const docElm = document.documentElement as FullSpecElement;
+const doc =
+  typeof document !== 'undefined'
+    ? (document as FullSpecDocument)
+    : ({} as any);
+const docElm =
+  typeof document !== 'undefined'
+    ? (document.documentElement as FullSpecElement)
+    : ({} as any);
 
 // For Safari IOS: Only available on iPad, not on iPhone.
 // https://developer.mozilla.org/en-US/docs/Web/API/Document/fullscreenEnabled#browser_compatibility
