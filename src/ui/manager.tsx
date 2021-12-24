@@ -21,11 +21,9 @@ const ManagerUI: React.FC<ReaderReturn & ReaderManagerArguments> = (props) => {
   );
 };
 
-const WebReaderContent: React.FC<ReaderReturn & ReaderManagerArguments> = ({
-  children,
-  headerLeft,
-  ...props
-}) => {
+export const WebReaderContent: React.FC<
+  ReaderReturn & ReaderManagerArguments
+> = ({ children, headerLeft, ...props }) => {
   const bgColor = useColorModeValue('ui.white', 'ui.black', 'ui.sepia');
   const containerRef = React.useRef<HTMLDivElement>(null);
   const isAtStart = props.state?.atStart;
